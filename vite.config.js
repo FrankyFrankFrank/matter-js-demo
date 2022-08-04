@@ -1,4 +1,4 @@
 // vite.config.js
 export default {
-    base: '/matter-js-demo/'
-  }
+  base: '/matter-js-demo/'
+}

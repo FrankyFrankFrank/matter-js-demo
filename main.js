@@ -12,6 +12,7 @@ Example.compound = function() {
         Composite = Matter.Composite,
         MouseConstraint = Matter.MouseConstraint,
         Mouse = Matter.Mouse,
+        Vector = Matter.Vector,
         Bodies = Matter.Bodies;
 
     // create engine
@@ -44,8 +45,8 @@ Example.compound = function() {
     
     const pegRadius = 10;
     const pegGap = 40;
-    const pegCount = 10;
-    const pegsPerRow = 4;
+    const pegCount = 40;
+    const pegsPerRow = 10;
 
     const pegOptions = {
         render: {
@@ -59,12 +60,12 @@ Example.compound = function() {
     }
     const pegBodies = [];
     for (let i = 0; i < pegCount; i++) {
-        const pegX = (render.canvas.width - pegCount * pegRadius) / 2;
-        const pegY = (render.canvas.height - pegCount * pegRadius) / 2;
-        const pegXPosition = pegX + i * (pegRadius + pegGap)
-        const pegYPosition = pegY + i % pegsPerRow * (pegRadius + pegGap)
-        const peg = Bodies.circle(pegXPosition, pegYPosition, pegRadius, pegOptions);
-        Composite.add(world, peg);
+        const pegRow = Math.floor(i / pegsPerRow);
+        const pegCol = i % pegsPerRow;
+        const pegX = pegCol * (pegRadius + pegGap);
+        const pegY = pegRow * (pegRadius + pegGap);
+        const pegBody = Bodies.circle(-pegX + 600, -pegY + 500, pegRadius, pegOptions);
+        Composite.add(world, pegBody);
     }
 
     const ballRadius = 10;
@@ -74,12 +75,14 @@ Example.compound = function() {
         },
         isStatic: false,
         friction: 0,
-        restitution: 0.2,
+        restitution: 1,
         frictionAir: 0.01,
         frictionStatic: 0.01,
     }
     const ball = Bodies.circle(render.canvas.width / 2, render.canvas.height / 4, ballRadius, ballOptions);
+    const vector = Vector.create(Math.random() * 0.0012, 0);
     Composite.add(world, ball);
+    Body.applyForce(ball, { x: 0, y: 0 }, vector);
 
     var floor = Bodies.rectangle(400, 600, 800, 50.5),
         leftWall = Bodies.rectangle(0, 300, 50.5, 600),

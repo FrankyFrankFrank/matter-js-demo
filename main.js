@@ -41,39 +41,45 @@ Example.compound = function() {
     // create runner
     var runner = Runner.create();
     Runner.run(runner, engine);
-
-    // add bodies
-    var size = 200,
-        x = 200,
-        y = 200;
-
-    var partC = Bodies.circle(x, y, 30, { render: { fillStyle: '#ff0000' }  }),
-        partD = Bodies.circle(x + size, y, 30),
-        partE = Bodies.circle(x + size, y + size, 30),
-        partF = Bodies.circle(x, y + size, 30);
-
-    var compoundBodyB = Body.create({
-        parts: [partC, partD, partE, partF]
-    });
-
-    var constraint = Constraint.create({
-        pointA: { x: 400, y: 100 },
-        bodyB: compoundBodyB,
-        pointB: { x: 0, y: 0 }
-    });
-
     
+    const pegRadius = 10;
+    const pegGap = 40;
+    const pegCount = 10;
+    const pegsPerRow = 4;
 
-    // array from random number between 3 and 13
-    var randomNumber = Math.floor(Math.random() * (13 - 3 + 1)) + 3;
-    for (var i = 0; i < randomNumber; i++) {
-        var randomX = Math.floor(Math.random() * (800 - 0 + 1)) + 0;
-        var randomY = Math.floor(Math.random() * (600 - 0 + 1)) + 0;
-        var randomSize = Math.floor(Math.random() * (50 - 0 + 1)) + 20;
-        var randomColor = getRandomColor();
-        var randomBody = Bodies.circle(randomX, randomY, randomSize, { render: { fillStyle: randomColor } });
-        Composite.add(world, randomBody);
+    const pegOptions = {
+        render: {
+            fillStyle: 'red'
+        },
+        isStatic: true,
+        friction: 0,
+        restitution: 0.2,
+        frictionAir: 0.01,
+        frictionStatic: 0.01,
     }
+    const pegBodies = [];
+    for (let i = 0; i < pegCount; i++) {
+        const pegX = (render.canvas.width - pegCount * pegRadius) / 2;
+        const pegY = (render.canvas.height - pegCount * pegRadius) / 2;
+        const pegXPosition = pegX + i * (pegRadius + pegGap)
+        const pegYPosition = pegY + i % pegsPerRow * (pegRadius + pegGap)
+        const peg = Bodies.circle(pegXPosition, pegYPosition, pegRadius, pegOptions);
+        Composite.add(world, peg);
+    }
+
+    const ballRadius = 10;
+    const ballOptions = {
+        render: {
+            fillStyle: 'blue'
+        },
+        isStatic: false,
+        friction: 0,
+        restitution: 0.2,
+        frictionAir: 0.01,
+        frictionStatic: 0.01,
+    }
+    const ball = Bodies.circle(render.canvas.width / 2, render.canvas.height / 4, ballRadius, ballOptions);
+    Composite.add(world, ball);
 
     var floor = Bodies.rectangle(400, 600, 800, 50.5),
         leftWall = Bodies.rectangle(0, 300, 50.5, 600),
@@ -89,9 +95,8 @@ Example.compound = function() {
     })
 
     Composite.add(world, [
-        compoundBodyB, 
-        constraint,
-        floorAndWalls
+        floorAndWalls,
+        pegBodies
     ]);
 
     // add mouse control

@@ -69,10 +69,23 @@ Example.compound = function() {
         Composite.add(world, randomBody);
     }
 
+    var floor = Bodies.rectangle(400, 600, 800, 50.5),
+        leftWall = Bodies.rectangle(0, 300, 50.5, 600),
+        rightWall = Bodies.rectangle(800, 300, 50.5, 600);
+
+    var floorAndWalls = Body.create({
+      parts: [
+        floor,
+        leftWall,
+        rightWall,
+      ],
+      isStatic: true
+    })
+
     Composite.add(world, [
         compoundBodyB, 
         constraint,
-        Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
+        floorAndWalls
     ]);
 
     // add mouse control

@@ -17,8 +17,6 @@ Example.compound = function() {
     var engine = Engine.create(),
         world = engine.world;
 
-        console.log('foo')
-
     // create renderer
     var render = Render.create({
         element: document.body,
@@ -27,8 +25,6 @@ Example.compound = function() {
             width: 800,
             height: 600,
             wireframes: false,
-            // showAxes: true,
-            // showConvexHulls: true,
             background: 'hsla(55, 40%, 80%)'
         }
     });
@@ -54,13 +50,15 @@ Example.compound = function() {
     x = 400;
     y = 300;
 
-    var partC = Bodies.circle(x, y, 30),
+    var partC = Bodies.circle(x, y, 30, { render: { fillStyle: '#ff0000' }  }),
         partD = Bodies.circle(x + size, y, 30),
         partE = Bodies.circle(x + size, y + size, 30),
-        partF = Bodies.circle(x, y + size, 30);
+        partF = Bodies.circle(x, y + size, 30),
+        partX = Bodies.circle(x, y, 20, { render: { fillStyle: '#ff00ff' }  }),
+        partY = Bodies.circle(x, y, 10);
 
     var compoundBodyB = Body.create({
-        parts: [partC, partD, partE, partF]
+        parts: [partC, partD, partE, partF, partX, partY]
     });
 
     var constraint = Constraint.create({

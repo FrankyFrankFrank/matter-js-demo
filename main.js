@@ -17,6 +17,9 @@ Example.compound = function() {
     var engine = Engine.create(),
         world = engine.world;
 
+    // create random HSL color
+    var randomColor = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%)`
+
     // create renderer
     var render = Render.create({
         element: document.body,
@@ -25,7 +28,7 @@ Example.compound = function() {
             width: 800,
             height: 600,
             wireframes: false,
-            background: 'hsla(55, 40%, 80%)'
+            background: randomColor
         }
     });
 

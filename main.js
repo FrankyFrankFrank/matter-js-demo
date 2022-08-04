@@ -19,7 +19,10 @@ Example.compound = function() {
         world = engine.world;
 
     // create random HSL color
-    var randomColor = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%)`
+    const getRandomColor = () => {
+        return `hsla(${Math.random() * 360}, ${Math.random() * 50 + 30}%, ${Math.random() * 50 + 30}%)`
+    }
+    var randomColor = getRandomColor()
 
     // create renderer
     var render = Render.create({
@@ -59,9 +62,7 @@ Example.compound = function() {
         pointB: { x: 0, y: 0 }
     });
 
-    const getRandomColor = () => {
-      return `hsla(${Math.random() * 360}, ${Math.random() * 50 + 30}%, ${Math.random() * 50 + 30}%)`
-    }
+    
 
     // array from random number between 3 and 13
     var randomNumber = Math.floor(Math.random() * (13 - 3 + 1)) + 3;

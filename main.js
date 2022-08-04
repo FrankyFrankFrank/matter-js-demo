@@ -41,27 +41,15 @@ Example.compound = function() {
     // add bodies
     var size = 200,
         x = 200,
-        y = 200,
-        partA = Bodies.rectangle(x, y, size, size / 5),
-        partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
-
-    var compoundBodyA = Body.create({
-        parts: [partA, partB]
-    });
-
-    size = 150;
-    x = 400;
-    y = 300;
+        y = 200;
 
     var partC = Bodies.circle(x, y, 30, { render: { fillStyle: '#ff0000' }  }),
         partD = Bodies.circle(x + size, y, 30),
         partE = Bodies.circle(x + size, y + size, 30),
-        partF = Bodies.circle(x, y + size, 30),
-        partX = Bodies.circle(x, y, 20, { render: { fillStyle: '#ff00ff' }  }),
-        partY = Bodies.circle(x, y, 10);
+        partF = Bodies.circle(x, y + size, 30);
 
     var compoundBodyB = Body.create({
-        parts: [partC, partD, partE, partF, partX, partY]
+        parts: [partC, partD, partE, partF]
     });
 
     var constraint = Constraint.create({
@@ -71,11 +59,21 @@ Example.compound = function() {
     });
 
     Composite.add(world, [
-        compoundBodyA, 
         compoundBodyB, 
         constraint,
         Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
     ]);
+
+    // array from random number between 3 and 13
+    var randomNumber = Math.floor(Math.random() * (13 - 3 + 1)) + 3;
+    for (var i = 0; i < randomNumber; i++) {
+        var randomX = Math.floor(Math.random() * (800 - 0 + 1)) + 0;
+        var randomY = Math.floor(Math.random() * (600 - 0 + 1)) + 0;
+        var randomSize = Math.floor(Math.random() * (40 - 0 + 1)) + 0;
+        var randomColor = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%)`
+        var randomBody = Bodies.circle(randomX, randomY, randomSize, { render: { fillStyle: randomColor } });
+        Composite.add(world, randomBody);
+    }
 
     // add mouse control
     var mouse = Mouse.create(render.canvas),

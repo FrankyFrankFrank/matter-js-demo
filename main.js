@@ -7,6 +7,7 @@ Example.compound = function() {
         Render = Matter.Render,
         Runner = Matter.Runner,
         Body = Matter.Body,
+        Events = Matter.Events,
         Constraint = Matter.Constraint,
         Composite = Matter.Composite,
         MouseConstraint = Matter.MouseConstraint,
@@ -58,13 +59,17 @@ Example.compound = function() {
         pointB: { x: 0, y: 0 }
     });
 
+    const getRandomColor = () => {
+      return `hsla(${Math.random() * 360}, ${Math.random() * 50 + 30}%, ${Math.random() * 50 + 30}%)`
+    }
+
     // array from random number between 3 and 13
     var randomNumber = Math.floor(Math.random() * (13 - 3 + 1)) + 3;
     for (var i = 0; i < randomNumber; i++) {
         var randomX = Math.floor(Math.random() * (800 - 0 + 1)) + 0;
         var randomY = Math.floor(Math.random() * (600 - 0 + 1)) + 0;
-        var randomSize = Math.floor(Math.random() * (40 - 0 + 1)) + 0;
-        var randomColor = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%)`
+        var randomSize = Math.floor(Math.random() * (50 - 0 + 1)) + 20;
+        var randomColor = getRandomColor();
         var randomBody = Bodies.circle(randomX, randomY, randomSize, { render: { fillStyle: randomColor } });
         Composite.add(world, randomBody);
     }
@@ -109,6 +114,28 @@ Example.compound = function() {
     Render.lookAt(render, {
         min: { x: 0, y: 0 },
         max: { x: 800, y: 600 }
+    });
+
+    Events.on(engine, 'collisionStart', function(event) {
+      var pairs = event.pairs;
+
+      // change object colours to show those starting a collision
+      for (var i = 0; i < pairs.length; i++) {
+          var pair = pairs[i];
+          pair.bodyA.render.fillStyle = getRandomColor();
+          pair.bodyB.render.fillStyle = getRandomColor();
+      }
+    });
+
+    Events.on(engine, 'collisionEnd', function(event) {
+      var pairs = event.pairs;
+
+      // change object colours to show those starting a collision
+      for (var i = 0; i < pairs.length; i++) {
+          var pair = pairs[i];
+          pair.bodyA.render.fillStyle = getRandomColor();
+          pair.bodyB.render.fillStyle = getRandomColor();
+      }
     });
 
     // context for MatterTools.Demo

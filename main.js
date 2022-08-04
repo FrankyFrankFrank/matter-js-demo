@@ -58,12 +58,6 @@ Example.compound = function() {
         pointB: { x: 0, y: 0 }
     });
 
-    Composite.add(world, [
-        compoundBodyB, 
-        constraint,
-        Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
-    ]);
-
     // array from random number between 3 and 13
     var randomNumber = Math.floor(Math.random() * (13 - 3 + 1)) + 3;
     for (var i = 0; i < randomNumber; i++) {
@@ -74,6 +68,12 @@ Example.compound = function() {
         var randomBody = Bodies.circle(randomX, randomY, randomSize, { render: { fillStyle: randomColor } });
         Composite.add(world, randomBody);
     }
+
+    Composite.add(world, [
+        compoundBodyB, 
+        constraint,
+        Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
+    ]);
 
     // add mouse control
     var mouse = Mouse.create(render.canvas),

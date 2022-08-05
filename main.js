@@ -2,7 +2,7 @@ import Matter from 'matter-js'
 
 var Example = Example || {};
 
-Example.compound = function() {
+Example.compound = function () {
     var Engine = Matter.Engine,
         Render = Matter.Render,
         Runner = Matter.Runner,
@@ -42,7 +42,7 @@ Example.compound = function() {
     // create runner
     var runner = Runner.create();
     Runner.run(runner, engine);
-    
+
     const pegRadius = 10;
     const pegGap = 40;
     const pegCount = 40;
@@ -59,13 +59,16 @@ Example.compound = function() {
         frictionStatic: 0.01,
     }
     const pegBodies = [];
-    for (let i = 0; i < pegCount; i++) {
-        const pegRow = Math.floor(i / pegsPerRow);
-        const pegCol = i % pegsPerRow;
-        const pegX = pegCol * (pegRadius + pegGap);
-        const pegY = pegRow * (pegRadius + pegGap);
-        const pegBody = Bodies.circle(-pegX + 600, -pegY + 500, pegRadius, pegOptions);
-        Composite.add(world, pegBody);
+
+    for (let r = 0; r < Math.floor(pegCount / pegsPerRow); r++) {
+        const pegsInThisRow = (r % 2 == 0) ? pegsPerRow : pegsPerRow - 1
+        for (let c = 0; c < pegsInThisRow; c++) {
+            const startX = (r % 2 == 0) ? 0 : (pegGap + pegRadius) / 2
+            const pegX = startX + c * (pegRadius + pegGap);
+            const pegY = r * (pegRadius + pegGap);
+            const pegBody = Bodies.circle(-pegX + 600, -pegY + 500, pegRadius, pegOptions);
+            Composite.add(world, pegBody);
+        }
     }
 
     const ballRadius = 10;
@@ -89,12 +92,12 @@ Example.compound = function() {
         rightWall = Bodies.rectangle(800, 300, 50.5, 600);
 
     var floorAndWalls = Body.create({
-      parts: [
-        floor,
-        leftWall,
-        rightWall,
-      ],
-      isStatic: true
+        parts: [
+            floor,
+            leftWall,
+            rightWall,
+        ],
+        isStatic: true
     })
 
     Composite.add(world, [
@@ -125,26 +128,26 @@ Example.compound = function() {
         max: { x: 800, y: 600 }
     });
 
-    Events.on(engine, 'collisionStart', function(event) {
-      var pairs = event.pairs;
+    Events.on(engine, 'collisionStart', function (event) {
+        var pairs = event.pairs;
 
-      // change object colours to show those starting a collision
-      for (var i = 0; i < pairs.length; i++) {
-          var pair = pairs[i];
-          pair.bodyA.render.fillStyle = getRandomColor();
-          pair.bodyB.render.fillStyle = getRandomColor();
-      }
+        // change object colours to show those starting a collision
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            pair.bodyA.render.fillStyle = getRandomColor();
+            pair.bodyB.render.fillStyle = getRandomColor();
+        }
     });
 
-    Events.on(engine, 'collisionEnd', function(event) {
-      var pairs = event.pairs;
+    Events.on(engine, 'collisionEnd', function (event) {
+        var pairs = event.pairs;
 
-      // change object colours to show those starting a collision
-      for (var i = 0; i < pairs.length; i++) {
-          var pair = pairs[i];
-          pair.bodyA.render.fillStyle = getRandomColor();
-          pair.bodyB.render.fillStyle = getRandomColor();
-      }
+        // change object colours to show those starting a collision
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            pair.bodyA.render.fillStyle = getRandomColor();
+            pair.bodyB.render.fillStyle = getRandomColor();
+        }
     });
 
     // context for MatterTools.Demo
@@ -153,7 +156,7 @@ Example.compound = function() {
         runner: runner,
         render: render,
         canvas: render.canvas,
-        stop: function() {
+        stop: function () {
             Matter.Render.stop(render);
             Matter.Runner.stop(runner);
         }

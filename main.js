@@ -63,7 +63,7 @@ Example.compound = function () {
     for (let r = 0; r < Math.floor(pegCount / pegsPerRow); r++) {
         const pegsInThisRow = (r % 2 == 0) ? pegsPerRow : pegsPerRow - 1
         for (let c = 0; c < pegsInThisRow; c++) {
-            const startX = (r % 2 == 0) ? 0 : pegGap / 2
+            const startX = (r % 2 == 0) ? 0 : (pegGap + pegRadius) / 2
             const pegX = startX + c * (pegRadius + pegGap);
             const pegY = r * (pegRadius + pegGap);
             const pegBody = Bodies.circle(-pegX + 600, -pegY + 500, pegRadius, pegOptions);

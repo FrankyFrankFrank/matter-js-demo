@@ -87,7 +87,9 @@ Example.compound = function () {
     Composite.add(world, ball);
     Body.applyForce(ball, { x: 0, y: 0 }, vector);
 
-    var floor = Bodies.rectangle(400, 600, 800, 50.5),
+    var floor = Bodies.rectangle(400, 600, 800, 50.5, {
+        label: 'floor'
+    }),
         leftWall = Bodies.rectangle(0, 300, 50.5, 600),
         rightWall = Bodies.rectangle(800, 300, 50.5, 600);
 
@@ -131,7 +133,7 @@ Example.compound = function () {
     Events.on(engine, 'collisionStart', function (event) {
         var pairs = event.pairs;
 
-        if (pairs[0].bodyB.label === 'Rectangle Body') {
+        if (pairs[0].bodyB.label === 'floor') {
             Body.setPosition(pairs[0].bodyA, {
                 x: render.canvas.width / 2,
                 y: render.canvas.height / 4

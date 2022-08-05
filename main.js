@@ -5,16 +5,6 @@ let highScore = 0;
 
 var Example = Example || {};
 
-const handleFloorCollision = (pairs) => {
-    var Body = Matter.Body;
-    Body.setPosition(pairs[0].bodyA, {
-        x: render.canvas.width / 2,
-        y: render.canvas.height / 4
-    });
-    bounceCount = 0;
-    document.querySelector("#counter").innerHTML = bounceCount;
-}
-
 Example.compound = function () {
     var Engine = Matter.Engine,
         Render = Matter.Render,
@@ -148,7 +138,12 @@ Example.compound = function () {
         var pairs = event.pairs;
 
         if (pairs[0].bodyB.label === 'floor') {
-            handleFloorCollision(pairs)
+            Body.setPosition(pairs[0].bodyA, {
+                x: render.canvas.width / 2,
+                y: render.canvas.height / 4
+            });
+            bounceCount = 0;
+            document.querySelector("#counter").innerHTML = bounceCount;
         } else {
             bounceCount++
             if (bounceCount > highScore) {

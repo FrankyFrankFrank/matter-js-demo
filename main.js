@@ -131,6 +131,14 @@ Example.compound = function () {
     Events.on(engine, 'collisionStart', function (event) {
         var pairs = event.pairs;
 
+        if (pairs[0].bodyB.label === 'Rectangle Body') {
+            Body.setPosition(pairs[0].bodyA, {
+                x: render.canvas.width / 2,
+                y: render.canvas.height / 4
+            });
+            console.log('collision');
+        }
+
         // change object colours to show those starting a collision
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i];

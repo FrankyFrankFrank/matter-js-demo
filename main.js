@@ -1,5 +1,8 @@
 import Matter from 'matter-js'
 
+let bounceCount = 0;
+let highScore = 0;
+
 var Example = Example || {};
 
 Example.compound = function () {
@@ -138,7 +141,15 @@ Example.compound = function () {
                 x: render.canvas.width / 2,
                 y: render.canvas.height / 4
             });
-            console.log('collision');
+            bounceCount = 0;
+            document.querySelector("#counter").innerHTML = bounceCount;
+        } else {
+            bounceCount++
+            if (bounceCount > highScore) {
+                highScore = bounceCount;
+                document.querySelector("#high-score").innerHTML = highScore;
+            }
+            document.querySelector('#counter').innerHTML = bounceCount;
         }
 
         // change object colours to show those starting a collision

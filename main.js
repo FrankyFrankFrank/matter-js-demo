@@ -45,12 +45,12 @@ Example.compound = function () {
 
     const pegRadius = 10;
     const pegGap = 40;
-    const pegCount = 40;
-    const pegsPerRow = 10;
+    const pegCount = 100;
+    const pegsPerRow = 14;
 
     const pegOptions = {
         render: {
-            fillStyle: 'red'
+            fillStyle: 'transparent'
         },
         isStatic: true,
         friction: 0,
@@ -66,12 +66,12 @@ Example.compound = function () {
             const startX = (r % 2 == 0) ? 0 : (pegGap + pegRadius) / 2
             const pegX = startX + c * (pegRadius + pegGap);
             const pegY = r * (pegRadius + pegGap);
-            const pegBody = Bodies.circle(-pegX + 600, -pegY + 500, pegRadius, pegOptions);
+            const pegBody = Bodies.circle(-pegX + 725, -pegY + 500, pegRadius, pegOptions);
             Composite.add(world, pegBody);
         }
     }
 
-    const ballRadius = 10;
+    const ballRadius = 13;
     const ballOptions = {
         render: {
             fillStyle: 'blue'
